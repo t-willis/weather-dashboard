@@ -22,16 +22,16 @@
             <div class="column is-one-quarter has-background-light m-3">
                 <label class="label p-3">Search for a city:</label>
                 <div class="control p-3">
-                    <input class="input" type="text" placeholder="Text input">
+                    <input class="input cityInput" type="text" placeholder="Text input">
                 </div>
                 <div class="control p-3">
-                    <button class="button is-primary">Submit</button>
+                    <button class="button cityInputButton is-primary">Submit</button>
                   </div>
             </div>
 
-            <div class="column is-three-quarter">
+            <div class="column is-auto">
 
-                <div class="box">                  
+                <div class="box currentWeatherBox">                  
                     <p class="title currentCity is-4">Nashville (7/7/2077)</p>
                     <ul>
                         <li class="pb-3" id="currentTemp">temp: </li>
@@ -42,7 +42,27 @@
 
                 <div class="box">
                     <p class="title fiveDay is-4 ">5-Day Forecast:</p>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="box"></div>
+                        </div>
+                        <div class="column">
+                            <div class="box"></div>
+                        </div>
+                        <div class="column">
+                            <div class="box"></div>
+                        </div>
+                        <div class="column">
+                            <div class="box"></div>
+                        </div>
+                        <div class="column">
+                            <div class="box"></div>
+                        </div>
+                    </div>
+
                 </div>
+
 
             </div>
 
