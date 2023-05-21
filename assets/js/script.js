@@ -107,7 +107,7 @@ $("#cityInputBtn").on("click", function() {
     // fetch request to get current weather, setTimeout to make sure it happens AFTER the lat/lon fetch
     setTimeout(
         function getWeather() {
-            var requestWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
+            var requestWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
             
             fetch(requestWeatherUrl)
             .then(function (response) {
@@ -128,7 +128,7 @@ $("#cityInputBtn").on("click", function() {
     // fetch request to get weather forecast, setTimeout from above applies to this fetch as well
     setTimeout(
         function getForecast() {
-            var requestForecastUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
+            var requestForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
 
             fetch(requestForecastUrl)
             .then(function (response) {
