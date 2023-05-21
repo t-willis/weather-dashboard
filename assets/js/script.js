@@ -61,6 +61,15 @@ var inputCity = "";
 var locLat = "";
 var locLon = "";
 
+// dayjs things
+var currentDate = dayjs();
+var dateplus = currentDate.add(1, 'day');
+// for loop to populate future dates in 5 day forecast
+for (var i = 1; i < 6; i++) {
+    $("#fiveDate" + [i]).text(currentDate.add([i], 'day').format("MMM D, YYYY"));
+}
+$("#currentCity").text("Todays Date" + " - " + currentDate.format("MMM D, YYYY"));
+
 // function to determine direction of wind by degree 0-360
 function getDirection(angle) {
     var directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -109,7 +118,7 @@ $("#cityInputBtn").on("click", function() {
                 console.log("This is from CURRENT weather request");
                 console.log(data1);
                 $("#currentCity").text(inputCity + " - " + dayjs().format("MMM D, YYYY"));
-                $("#currentTemp").text("Temp: " + Math.round(data1.main.temp) + "°F");
+                $("#currentTemp").text("Temp: " + Math.round(data1.main.temp) + "° F");
                 $("#currentWind").text("Wind: " + Math.round(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
                 $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
             })
@@ -129,6 +138,9 @@ $("#cityInputBtn").on("click", function() {
             .then(function (data2) {
                 console.log("This is from FORECAST weather request");
                 console.log(data2);
+                $("#fiveTemp1").text("Temp: " + Math.round(data2.list[0].main.temp) + "° F");
+                $("#fiveWind1").text("Wind: " + Math.round(data2.list[0].wind.speed) + " - " + getDirection(data2.list[0].wind.deg));
+                $("#fiveHumid1").text("Humidity: " + data2.list[0].main.humidity);
             })
             // change button text back to 'Submit'
             $("#cityInputBtn").text("Submit");
