@@ -138,9 +138,27 @@ $("#cityInputBtn").on("click", function() {
             .then(function (data2) {
                 console.log("This is from FORECAST weather request");
                 console.log(data2);
+                // 5 day forecast data population from fetched data2
+                // 1 of 5
                 $("#fiveTemp1").text("Temp: " + Math.round(data2.list[0].main.temp) + "° F");
                 $("#fiveWind1").text("Wind: " + Math.round(data2.list[0].wind.speed) + " - " + getDirection(data2.list[0].wind.deg));
-                $("#fiveHumid1").text("Humidity: " + data2.list[0].main.humidity);
+                $("#fiveHumid1").text("Humidity: " + data2.list[0].main.humidity + "%");
+                // 2 of 5
+                $("#fiveTemp2").text("Temp: " + Math.round(data2.list[0].main.temp) + "° F");
+                $("#fiveWind2").text("Wind: " + Math.round(data2.list[0].wind.speed) + " - " + getDirection(data2.list[0].wind.deg));
+                $("#fiveHumid2").text("Humidity: " + data2.list[0].main.humidity + "%");
+                // 3 of 5
+                $("#fiveTemp3").text("Temp: " + Math.round(data2.list[0].main.temp) + "° F");
+                $("#fiveWind3").text("Wind: " + Math.round(data2.list[0].wind.speed) + " - " + getDirection(data2.list[0].wind.deg));
+                $("#fiveHumid3").text("Humidity: " + data2.list[0].main.humidity + "%");
+                // 4 of 5
+                $("#fiveTemp4").text("Temp: " + Math.round(data2.list[0].main.temp) + "° F");
+                $("#fiveWind4").text("Wind: " + Math.round(data2.list[0].wind.speed) + " - " + getDirection(data2.list[0].wind.deg));
+                $("#fiveHumid4").text("Humidity: " + data2.list[0].main.humidity + "%");
+                // 5 of 5
+                $("#fiveTemp5").text("Temp: " + Math.round(data2.list[0].main.temp) + "° F");
+                $("#fiveWind5").text("Wind: " + Math.round(data2.list[0].wind.speed) + " - " + getDirection(data2.list[0].wind.deg));
+                $("#fiveHumid5").text("Humidity: " + data2.list[0].main.humidity + "%");
             })
             // change button text back to 'Submit'
             $("#cityInputBtn").text("Submit");
