@@ -61,6 +61,14 @@ var inputCity = "";
 var locLat = "";
 var locLon = "";
 
+// function to determine direction of wind by degree 0-360
+function getDirection(angle) {
+    var directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    var windDirec = Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / 45) % 8;
+    return directions[windDirec];
+}
+
+
 
 // eventListener/click event to grab form input, then run api request using city name
 $("#cityInputBtn").on("click", function() {
@@ -70,6 +78,7 @@ $("#cityInputBtn").on("click", function() {
     function getGeoApi() {
     var requestLatLonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=0dfeca27786a8a8c837f120f88c9a791";
 
+    // fetch request to set lat/lon variables
     fetch(requestLatLonUrl)
         .then(function (response) {
             return response.json();
@@ -84,6 +93,7 @@ $("#cityInputBtn").on("click", function() {
     }
     getGeoApi();
 
+    // fetch request to get current weather, setTimeout to make sure it happens AFTER the lat/lon fetch
     setTimeout(
         function getWeather() {
             var requestWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
@@ -96,10 +106,15 @@ $("#cityInputBtn").on("click", function() {
             .then(function (data1) {
                 console.log("This is from CURRENT weather request");
                 console.log(data1);
+                $("#currentCity").text(inputCity + " - " + dayjs().format("MMM D, YYYY"));
+                $("#currentTemp").text("Temp: " + Math.trunc(data1.main.temp) + "°F");
+                $("#currentWind").text("Wind: " + Math.trunc(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
+                $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
             })
         }, 2000
     );
 
+    // fetch request to get weather forecast, setTimeout from above applies to this fetch as well
     setTimeout(
         function getForecast() {
             var requestForecastUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
@@ -115,7 +130,6 @@ $("#cityInputBtn").on("click", function() {
             })
         }, 2000
     );
-    
-        
+
 });
 
