@@ -11,7 +11,7 @@
 var inputZip = "37027";
 var locLat = "36.0063";
 var locLon = "-86.7909";
-// var inputCity = "San Francisco ";
+var inputCity = "San Francisco ";
 
 
 // just for zips, might not use
@@ -75,6 +75,8 @@ $("#cityInputBtn").on("click", function() {
     inputCity = $("#cityInput").val();
     console.log("This is from the form input, #inputCity");
     console.log(inputCity);
+    // change button text to 'please wait' while data is being fetched
+    $("#cityInputBtn").text("please wait");
     function getGeoApi() {
     var requestLatLonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=0dfeca27786a8a8c837f120f88c9a791";
 
@@ -107,8 +109,8 @@ $("#cityInputBtn").on("click", function() {
                 console.log("This is from CURRENT weather request");
                 console.log(data1);
                 $("#currentCity").text(inputCity + " - " + dayjs().format("MMM D, YYYY"));
-                $("#currentTemp").text("Temp: " + Math.trunc(data1.main.temp) + "°F");
-                $("#currentWind").text("Wind: " + Math.trunc(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
+                $("#currentTemp").text("Temp: " + Math.round(data1.main.temp) + "°F");
+                $("#currentWind").text("Wind: " + Math.round(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
                 $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
             })
         }, 2000
@@ -128,8 +130,9 @@ $("#cityInputBtn").on("click", function() {
                 console.log("This is from FORECAST weather request");
                 console.log(data2);
             })
+            // change button text back to 'Submit'
+            $("#cityInputBtn").text("Submit");
         }, 2000
     );
-
 });
 
