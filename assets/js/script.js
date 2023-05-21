@@ -87,7 +87,7 @@ $("#cityInputBtn").on("click", function() {
     // change button text to 'please wait' while data is being fetched
     $("#cityInputBtn").text("please wait");
     function getGeoApi() {
-    var requestLatLonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=0dfeca27786a8a8c837f120f88c9a791";
+    var requestLatLonUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=0dfeca27786a8a8c837f120f88c9a791";
 
     // fetch request to set lat/lon variables
     fetch(requestLatLonUrl)
