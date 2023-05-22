@@ -1,61 +1,3 @@
-// input fields for geocoding api request lat/lon
-// var inputZip = "";
-// var inputCity = "";
-
-// empty variables to store lat/lon after geocoding api request
-// var locLat = "";
-// var locLon = "";
-
-
-// TEST VARIABLES
-var inputZip = "37027";
-var locLat = "36.0063";
-var locLon = "-86.7909";
-var inputCity = "San Francisco ";
-
-
-// just for zips, might not use
-// http://api.openweathermap.org/geo/1.0/zip?zip={zip code},{country code}&appid={API key}
-// function to fetch lat/lon based on user input for city name
-// function getGeoApi() {
-//     var requestLatLonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputCity + "&appid=0dfeca27786a8a8c837f120f88c9a791";
-
-//     fetch(requestLatLonUrl)
-//         .then(function (response) {
-//             return response.json();
-//         })
-//         .then(function (data) {
-//             locLat = data[0].lat;
-//             locLon = data[0].lon;
-//             console.log(locLat);
-//             console.log(locLon);
-//             console.log(data);
-//         })
-// }
-
-// getGeoApi();
-
-
-// function to fetch weather data based on lat/lon as requested from previous fetch request
-// function getWeather() {
-//     var requestWeatherUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + locLat + "&lon=" + locLon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
-    
-//     fetch(requestWeatherUrl)
-//     .then(function (response) {
-//         JSON.stringify(response);
-//         return response.json();
-//     })
-//     .then(function (data) {
-//         console.log(data);
-//     })
-// }
-
-// getWeather();
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT DELETE WHAT IS ABOVE YOU NEED IT FOR LATER
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 // Empty string to be determined by form input
 var inputCity = "";
 var locLat = "";
@@ -68,7 +10,7 @@ var dateplus = currentDate.add(1, 'day');
 for (var i = 1; i < 6; i++) {
     $("#fiveDate" + [i]).text(currentDate.add([i], 'day').format("MMM D, YYYY"));
 }
-$("#currentCity").text("Todays Date" + " - " + currentDate.format("MMM D, YYYY"));
+$("#currentCity").text("Today's Date" + " - " + currentDate.format("MMM D, YYYY"));
 
 // function to determine direction of wind by degree 0-360
 function getDirection(angle) {
@@ -76,8 +18,6 @@ function getDirection(angle) {
     var windDirec = Math.round(((angle %= 360) < 0 ? angle + 360 : angle) / 45) % 8;
     return directions[windDirec];
 }
-
-
 
 // eventListener/click event to grab form input, then run api request using city name
 $("#cityInputBtn").on("click", function() {
@@ -122,7 +62,7 @@ $("#cityInputBtn").on("click", function() {
                 $("#currentWind").text("Wind: " + Math.round(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
                 $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
             })
-        }, 2000
+        }, 1000
     );
 
     // fetch request to get weather forecast, setTimeout from above applies to this fetch as well
@@ -143,7 +83,7 @@ $("#cityInputBtn").on("click", function() {
                 for (var i = 0; i < data2.list.length; i++) {
                     if (data2.list[i].dt_txt.includes("18:00:00") === true) {
                         $("#fiveTemp" + iter).text("Temp: " + Math.round(data2.list[i].main.temp));
-                        $("#fiveWind" + iter).text("Wind: " + Math.round(data2.list[i].wind.speed));
+                        $("#fiveWind" + iter).text("Wind: " + Math.round(data2.list[i].wind.speed) + " - " + getDirection(data2.list[i].wind.deg));
                         $("#fiveHumid" + iter).text("Temp: " + Math.round(data2.list[i].main.humidity));
                         iter++;
                     }   
@@ -151,6 +91,6 @@ $("#cityInputBtn").on("click", function() {
             })
             // change button text back to 'Submit'
             $("#cityInputBtn").text("Submit");
-        }, 3000
+        }, 1000
     );
 });
