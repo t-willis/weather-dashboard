@@ -24,6 +24,7 @@ function getDirection(angle) {
 // eventListener/click event to grab form input, then run api request using city name
 $("#cityInputBtn").on("click", function() {
     inputCity = $("#cityInput").val();
+    // force inputCity variable to have uppercase for first letter
     inputCity = inputCity.charAt(0).toUpperCase()+ inputCity.slice(1);
     console.log("This is from the form input, #inputCity");
     console.log(inputCity);
@@ -65,6 +66,7 @@ $("#cityInputBtn").on("click", function() {
                 console.log(data1);
                 $("#currentCity").text(inputCity + " - " + dayjs().format("MMM D, YYYY"));
                 $("#currentTemp").text("Temp: " + Math.round(data1.main.temp) + "° F");
+                $("#currentIcon").attr("src", "https://openweathermap.org/img/wn/" + data1.weather[0].icon + ".png")
                 $("#currentWind").text("Wind: " + Math.round(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
                 $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
             })
@@ -85,7 +87,6 @@ $("#cityInputBtn").on("click", function() {
                 console.log(data2);
                 var iter = 1;
                 // 5 day forecast data population from fetched data2
-                // console.log(data2.list[5].dt_txt);
                 for (var i = 0; i < data2.list.length; i++) {
                     if (data2.list[i].dt_txt.includes("18:00:00") === true) {
                         $("#fiveTemp" + iter).text("Temp: " + Math.round(data2.list[i].main.temp));
