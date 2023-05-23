@@ -54,21 +54,18 @@ function getCurrent(lat, lon) {
 
     fetch(reqCurWea)
     .then(function (response) {
-    JSON.stringify(response);
-    return response.json();
+        JSON.stringify(response);
+        return response.json();
     })
     .then(function (data1) {
-    console.log(data1);
-    $("#currentCity").text(inputCity + " - " + dayjs().format("MMM D, YYYY"));
-    $("#currentTemp").text("Temp: " + Math.round(data1.main.temp) + "° F");
-    $("#currentWind").text("Wind: " + Math.round(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
-    $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
-    $("#currentIcon").attr({src:"https://openweathermap.org/img/wn/" + data1.weather[0].icon + ".png", alt: data1.weather[0].description})
+        console.log(data1);
+        popCurrent(data1);
     })
 };
 
 function getFiveDay(lat, lon) {
     var reqFivWea = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
+
     fetch(reqFivWea)
     .then(function (response) {
         JSON.stringify(response);
@@ -76,18 +73,50 @@ function getFiveDay(lat, lon) {
     })
     .then(function (data2) {
         console.log(data2);
-        // var iter = 1;
-        // for (var i = 0; i < data2.list.length; i++) {
-        //     if (data2.list[i].dt_text.includes("18:00:00") === true) {
-        //         $("#fiveTemp" + iter).text("Temp: " + Math.round(data2.list[i].main.temp) + "° F");
-        //         $("#fiveWind" + iter).text("Wind: " + Math.round(data2.list[i].wind.speed) + " - " + getDirection(data2.list[i].wind.deg));
-        //         $("#fiveHumid" + iter).text("Temp: " + Math.round(data2.list[i].main.humidity));
-        //         $("#fiveIcon" + iter).attr({src: "https://openweathermap.org/img/wn/" + data2.list[i].weather[0].icon + ".png", alt: data2.list[i].weather[0].description})
-        //         iter++;
-        //     }
-        // }
+        popFiveDay(data2);
     })
 };
+
+function popCurrent(data1) {
+    $("#currentCity").text(inputCity + " - " + dayjs().format("MMM D, YYYY"));
+    $("#currentTemp").text("Temp: " + Math.round(data1.main.temp) + "° F");
+    $("#currentWind").text("Wind: " + Math.round(data1.wind.speed) + " - " + getDirection(data1.wind.deg));
+    $("#currentHumid").text("Humidity: " + data1.main.humidity + "%");
+    $("#currentIcon").attr({src:"https://openweathermap.org/img/wn/" + data1.weather[0].icon + ".png", alt: data1.weather[0].description});
+};
+
+function popFiveDay(data2) {
+    console.log(data2);
+    var iter = 1;
+    for (let i = 0; i < data2.list.length; i++) {
+        if (data2.list[i].dt_txt.includes("18:00:00") === true) {
+            $("#fiveTemp" + iter).text("Temp: " + Math.round(data2.list[i].main.temp) + "° F");
+            $("#fiveWind" + iter).text("Wind: " + Math.round(data2.list[i].wind.speed) + " - " + getDirection(data2.list[i].wind.deg));
+            $("#fiveHumid" + iter).text("Humidity: " + data2.list[i].main.humidity + "%");
+            $("#fiveIcon" + iter).attr({src: "https://openweathermap.org/img/wn/" + data2.list[i].weather[0].icon + ".png", alt: data2.list[i].weather[0].description});
+            iter++;
+        }
+    }
+};
+
+    // var iter = 1;
+    // for (var i = 0; i < data2.list.length; i++) {
+    //     if (data2.list[i].dt_text.includes("18:00:00") === true) {
+    //         console.log("test");
+    //     }
+    // }
+    // var iter = 1;
+    // for (var i = 0; i < fiveData.list.length; i++) {
+    //     if (fiveData.list[i].dt_text.includes("18:00:00") === true) {
+    //         console.log("test");
+    //         $("#fiveTemp" + iter).text("Temp: " + Math.round(fiveData.list[i].main.temp) + "° F");
+    //         $("#fiveWind" + iter).text("Wind: " + Math.round(fiveData.list[i].wind.speed) + " - " + getDirection(fiveData.list[i].wind.deg));
+    //         $("#fiveHumid" + iter).text("Temp: " + Math.round(fiveData.list[i].main.humidity));
+    //         $("#fiveIcon" + iter).attr({src: "https://openweathermap.org/img/wn/" + fiveData.list[i].weather[0].icon + ".png", alt: fiveData.list[i].weather[0].description})
+    //         iter++;
+    //     }
+    // }
+// }
 
 
 //     // fetch request to get weather forecast, setTimeout from above applies to this fetch as well
