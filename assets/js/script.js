@@ -1,6 +1,8 @@
 var locLat = "";
 var locLon = "";
 var currentDate = dayjs();
+var inputCity = "";
+
 
 // populate current date
 $("#currentCity").text("Today's Date" + " - " + currentDate.format("MMM D, YYYY"));
@@ -20,11 +22,17 @@ function getDirection(angle) {
 $("#cityInputBtn").on("click", function() {
     inputCityFormat = $("#cityInput").val();
     inputCity = inputCityFormat.charAt(0).toUpperCase() + inputCityFormat.slice(1);
-    addPrevSearch(inputCity)
+    // addPrevSearch(inputCity)
+    
     getCoords(inputCity);
     $("#cityInputBtn").text("please wait...");
 })
 
+// function addPrevSearch(inp) {
+    
+//     var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + inp + '</button>');
+//     $("#previousSearches").append(prevSearchEl);
+// }
 
 function getCoords(inp) {
     var reqLatLon = "https://api.openweathermap.org/geo/1.0/direct?q=" + inp + "&appid=0dfeca27786a8a8c837f120f88c9a791";
@@ -38,6 +46,7 @@ function getCoords(inp) {
         locLon = Math.trunc(data[0].lon);
         getCurrent(locLat, locLon);
         getFiveDay(locLat, locLon);
+        addLocal(inputCity);
     })
 };
 
@@ -80,7 +89,6 @@ function popCurrent(data1) {
 
 
 function popFiveDay(data2) {
-    console.log(data2);
     var iter = 1;
     for (let i = 0; i < data2.list.length; i++) {
         if (data2.list[i].dt_txt.includes("18:00:00") === true) {
@@ -95,7 +103,25 @@ function popFiveDay(data2) {
 };
 
 
-function addPrevSearch(inp) {
-    var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + inp + '</button>');
-    $("#previousSearches").append(prevSearchEl);
+function addLocal(inputCity) {
+
+    if (!localStorage.getItem("city")) {
+        cityStorage = [];
+        cityStorage.push({city: inputCity});
+        localStorage.setItem("city", JSON.stringify(cityStorage));
+    } else {
+        cityStorage = JSON.parse(localStorage.getItem("city"));
+        cityStorage.push({city: inputCity});
+        localStorage.setItem("city",JSON.stringify(cityStorage));
+    }
+
+
+
+    //  else {
+    //     cityStorage = JSON.parse(localStorage.getItem("city"));
+    //     cityStorage.push({city: inputCity});
+    //     localStorage.setItem("city", JSON.stringify(cityStorage));
+    // }
+
+
 }
