@@ -28,15 +28,10 @@ $("#cityInputBtn").on("click", function() {
     $("#cityInputBtn").text("please wait...");
 })
 
-// function addPrevSearch(inp) {
-    
-//     var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + inp + '</button>');
-//     $("#previousSearches").append(prevSearchEl);
-// }
 
 function getCoords(inp) {
     var reqLatLon = "https://api.openweathermap.org/geo/1.0/direct?q=" + inp + "&appid=0dfeca27786a8a8c837f120f88c9a791";
-
+    
     fetch(reqLatLon)
     .then(function (response) {
         return response.json();
@@ -53,7 +48,7 @@ function getCoords(inp) {
 
 function getCurrent(lat, lon) {
     var reqCurWea = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
-
+    
     fetch(reqCurWea)
     .then(function (response) {
         JSON.stringify(response);
@@ -67,7 +62,7 @@ function getCurrent(lat, lon) {
 
 function getFiveDay(lat, lon) {
     var reqFivWea = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791";
-
+    
     fetch(reqFivWea)
     .then(function (response) {
         JSON.stringify(response);
@@ -104,24 +99,30 @@ function popFiveDay(data2) {
 
 
 function addLocal(inputCity) {
-
+    
     if (!localStorage.getItem("city")) {
         cityStorage = [];
-        cityStorage.push({city: inputCity});
+        cityStorage.push({inputCity});
         localStorage.setItem("city", JSON.stringify(cityStorage));
-    } else {
+    } else if (!localStorage.getItem("city").includes(inputCity)) {
         cityStorage = JSON.parse(localStorage.getItem("city"));
-        cityStorage.push({city: inputCity});
+        cityStorage.push({inputCity});
         localStorage.setItem("city",JSON.stringify(cityStorage));
     }
+};
 
 
+var prevLS = [];
+function addPrev() {
+    var prevLS = JSON.parse(localStorage.getItem("city"));
 
-    //  else {
-    //     cityStorage = JSON.parse(localStorage.getItem("city"));
-    //     cityStorage.push({city: inputCity});
-    //     localStorage.setItem("city", JSON.stringify(cityStorage));
-    // }
-
-
+    for (let i = 0; i < prevLS.length; i++) {
+        var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + prevLS[i].inputCity + '</button>');
+        $("#previousSearches").append(prevSearchEl);
+        
+        
+    }
+    
 }
+addPrev();
+
