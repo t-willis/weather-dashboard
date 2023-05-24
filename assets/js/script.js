@@ -4,6 +4,11 @@ var currentDate = dayjs();
 var inputCity = "";
 
 
+$("#clearPrev").on("click", function() {
+    location.reload();
+    localStorage.clear();
+});
+
 // populate current date
 $("#currentCity").text("Today's Date" + " - " + currentDate.format("MMM D, YYYY"));
 // for loop to populate future dates in 5 day forecast
@@ -143,7 +148,3 @@ $(".prevButton").on("click", function() {
     getCoords($(this).text());
 });
 
-$("#clearPrev").on("click", function() {
-    localStorage.clear();
-    location.reload();
-});
