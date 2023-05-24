@@ -25,6 +25,16 @@ $("#cityInputBtn").on("click", function() {
     
     getCoords(inputCity);
     $("#cityInputBtn").text("please wait...");
+
+    var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + inputCity + '</button>');
+    $("#previousSearches").append(prevSearchEl);
+    $(".prevButton").on("click", function() {
+        inputCity = ($(this).text());
+        getCoords($(this).text());
+    });
+
+    document.getElementById("cityInput").value = "";
+    
 })
 
 
@@ -133,3 +143,7 @@ $(".prevButton").on("click", function() {
     getCoords($(this).text());
 });
 
+$("#clearPrev").on("click", function() {
+    localStorage.clear();
+    location.reload();
+});
