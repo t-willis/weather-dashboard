@@ -22,7 +22,6 @@ function getDirection(angle) {
 $("#cityInputBtn").on("click", function() {
     inputCityFormat = $("#cityInput").val();
     inputCity = inputCityFormat.charAt(0).toUpperCase() + inputCityFormat.slice(1);
-    // addPrevSearch(inputCity)
     
     getCoords(inputCity);
     $("#cityInputBtn").text("please wait...");
@@ -120,9 +119,17 @@ function addPrev() {
         var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + prevLS[i].inputCity + '</button>');
         $("#previousSearches").append(prevSearchEl);
         
+        // $(".prevButton").on("click", function() {
+        //     console.log("test");
+        // })
         
     }
     
 }
 addPrev();
+
+$(".prevButton").on("click", function() {
+    inputCity = ($(this).text());
+    getCoords($(this).text());
+});
 
