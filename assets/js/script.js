@@ -1,8 +1,10 @@
+// variables for use later
 var locLat = "";
 var locLon = "";
 var currentDate = dayjs();
 var inputCity = "";
 
+// clear previously searched cities and reload page
 $("#clearPrev").on("click", function() {
     location.reload();
     localStorage.clear();
@@ -22,11 +24,12 @@ function getDirection(angle) {
     return directions[windDirec];
 }
 
+// on click for creating buttons in previously searched cities, forcing uppercase for first letter of input, running getCoords function 
 $("#cityInputBtn").on("click", function() {
     inputCityFormat = $("#cityInput").val();
     inputCity = inputCityFormat.charAt(0).toUpperCase() + inputCityFormat.slice(1);
-    getCoords(inputCity);
     var prevSearchEl = $(`<button class="button is-fullwidth is-link is-small mb-1 prevButton">${inputCity}</button>`);
+    getCoords(inputCity);
     $("#cityInputBtn").text("please wait...");
     $("#previousSearches").append(prevSearchEl);
     $(".prevButton").on("click", function() {
@@ -36,6 +39,7 @@ $("#cityInputBtn").on("click", function() {
     document.getElementById("cityInput").value = ""; 
 })
 
+// function to get coordinates for a city
 function getCoords(inp) {
     var reqLatLon = `https://api.openweathermap.org/geo/1.0/direct?q=${inp}&appid=0dfeca27786a8a8c837f120f88c9a791`;
     fetch(reqLatLon)
@@ -51,6 +55,7 @@ function getCoords(inp) {
     })
 };
 
+// function to get current weather based on lat and lon inputs
 function getCurrent(lat, lon) {
     var reqCurWea = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791`;
     fetch(reqCurWea)
@@ -63,6 +68,7 @@ function getCurrent(lat, lon) {
     })
 };
 
+// function to get forecast based on lat and lon inputs
 function getFiveDay(lat, lon) {
     var reqFivWea = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=0dfeca27786a8a8c837f120f88c9a791`;
     fetch(reqFivWea)
@@ -75,6 +81,7 @@ function getFiveDay(lat, lon) {
     })
 };
 
+// function to populate current weather data
 function popCurrent(data1) {
     $("#currentCity").text(`${inputCity} - ${dayjs().format("MMM D, YYYY")}`);
     $("#currentTemp").text(`Temp: ${Math.round(data1.main.temp)}° F`);
@@ -83,6 +90,7 @@ function popCurrent(data1) {
     $("#currentIcon").attr({src:`https://openweathermap.org/img/wn/${data1.weather[0].icon}.png`, alt: data1.weather[0].description});
 };
 
+// function to populate five day forecast data
 function popFiveDay(data2) {
     var iter = 1;
     for (let i = 0; i < data2.list.length; i++) {
@@ -97,6 +105,7 @@ function popFiveDay(data2) {
     $("#cityInputBtn").text("Submit");
 };
 
+// function to add city input to localStorage
 function addLocal(inputCity) {
     if (!localStorage.getItem("city")) {
         cityStorage = [];
@@ -109,6 +118,7 @@ function addLocal(inputCity) {
     }
 };
 
+// function to add items from localStorage to previously searched cities
 function addPrev() {
     var prevLS = JSON.parse(localStorage.getItem("city"));
     if (localStorage.getItem("city")) {
@@ -120,6 +130,7 @@ function addPrev() {
 };
 addPrev();
 
+// on click for previously searched city buttons to run apis and populate data
 $(".prevButton").on("click", function() {
     inputCity = ($(this).text());
     getCoords($(this).text());
