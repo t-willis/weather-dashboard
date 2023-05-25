@@ -29,9 +29,8 @@ $("#cityInputBtn").on("click", function() {
     inputCity = inputCityFormat.charAt(0).toUpperCase() + inputCityFormat.slice(1);
     
     getCoords(inputCity);
-    $("#cityInputBtn").text("please wait...");
-
     var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + inputCity + '</button>');
+    $("#cityInputBtn").text("please wait...");
     $("#previousSearches").append(prevSearchEl);
     $(".prevButton").on("click", function() {
         inputCity = ($(this).text());
@@ -126,18 +125,16 @@ function addLocal(inputCity) {
 };
 
 
-var prevLS = [];
+
 function addPrev() {
     var prevLS = JSON.parse(localStorage.getItem("city"));
 
-    for (let i = 0; i < prevLS.length; i++) {
-        var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + prevLS[i].inputCity + '</button>');
-        $("#previousSearches").append(prevSearchEl);
+    if (localStorage.getItem("city")) {
         
-        // $(".prevButton").on("click", function() {
-        //     console.log("test");
-        // })
-        
+        for (let i = 0; i < prevLS.length; i++) {
+            var prevSearchEl = $('<button class="button is-fullwidth is-link is-small mb-1 prevButton">' + prevLS[i].inputCity + '</button>');
+            $("#previousSearches").append(prevSearchEl);
+        }
     }
     
 }
@@ -147,4 +144,3 @@ $(".prevButton").on("click", function() {
     inputCity = ($(this).text());
     getCoords($(this).text());
 });
-
